@@ -1,3 +1,4 @@
+//cant use experimental joins :( it breaks auth
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/db";
