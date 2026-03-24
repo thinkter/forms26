@@ -37,14 +37,6 @@ CREATE TABLE "user" (
 	CONSTRAINT "user_email_key" UNIQUE("email")
 );
 --> statement-breakpoint
-CREATE TABLE "users" (
-	"id" int4 PRIMARY KEY GENERATED ALWAYS AS IDENTITY (INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
-	"name" varchar(255) NOT NULL,
-	"age" int4 NOT NULL,
-	"email" varchar(255) NOT NULL,
-	CONSTRAINT "users_email_key" UNIQUE("email")
-);
---> statement-breakpoint
 CREATE TABLE "verification" (
 	"id" varchar(255) PRIMARY KEY,
 	"identifier" varchar(255) NOT NULL,
