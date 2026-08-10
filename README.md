@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ACM Forms
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
+![Better Auth](https://img.shields.io/badge/auth-Better_Auth-7c3aed)
+![Drizzle](https://img.shields.io/badge/database-Drizzle_%2B_PostgreSQL-C5F74F)
+
+A Next.js authentication foundation for ACM forms, with Google sign-in and PostgreSQL-backed sessions.
+
+</div>
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant N as Next.js app
+  participant A as Better Auth
+  participant G as Google OAuth
+  participant D as PostgreSQL
+
+  U->>N: Choose Google sign-in
+  N->>A: Start social sign-in
+  A->>G: OAuth authorization
+  G-->>A: Identity callback
+  A->>D: Store user, account, and session
+  A-->>U: Authenticated session cookie
+```
+
+## Stack
+
+- Next.js App Router, React, and TypeScript.
+- Better Auth with the Drizzle adapter.
+- Drizzle ORM and PostgreSQL/Cockroach-compatible schemas.
+- Tailwind CSS for styling.
+
+## Setup
+
+```bash
+npm install
+```
+
+Create `.env.local`:
+
+```dotenv
+DATABASE_URL=postgresql://user:password@localhost:5432/acm_forms
+BETTER_AUTH_SECRET=replace-with-a-long-random-secret
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+```
+
+Configure the matching callback URL in Google Cloud, apply the checked-in Drizzle migrations to your database, then run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Useful paths
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/auth.ts` configures Better Auth and Google sign-in.
+- `app/api/auth/[...all]/route.ts` exposes the auth handlers.
+- `db/` contains the Drizzle connection, schemas, and migrations.
+- `app/components/google-login-button.tsx` implements the sign-in UI.
